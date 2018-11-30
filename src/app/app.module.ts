@@ -4,8 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from "./shared/shared.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-// import { GroupModule } from './components/group.module';
 
 //Materials controls
 import {
@@ -14,10 +12,17 @@ import {
     MatSelectModule,
     MatInputModule,
     MatRadioModule,
-    
+    MatIconModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
 } from '@angular/material';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { AppComponent } from './app.component';
 import { SemiDarkLayoutComponent } from './layouts/semi-dark-layout/semi-dark-layout.component';
@@ -45,9 +50,16 @@ import * as $ from 'jquery';
 import { UsersComponent } from './components/users/users.component';
 import { DashboradComponent } from './components/dashborad/dashborad.component';
 import { FacilitiesComponent } from './components/facilities/facilities.component';
-
+import { MultiselectsearchComponent } from "./customcontrols/multiselectsearch/multiselectsearch.component";
+import { SelectsearchComponent } from './customcontrols/selectsearch/selectsearch.component';
+import { ChangeLogComponent } from './changelog/changelog.component';
+import { MultiselectComponent } from './customcontrols/multiselect/multiselect.component';
+import { DaterangepickerComponent } from './customcontrols/daterangepicker/daterangepicker.component';
+import { GridComponent } from './customcontrols/grid/grid.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
+import { HttpModule } from '@angular/http';
+
 
 
 @NgModule({
@@ -72,8 +84,15 @@ import { ErrorComponent } from './components/error/error.component';
         UsersComponent,
         DashboradComponent,
         FacilitiesComponent,
+        MultiselectsearchComponent,
+        SelectsearchComponent,
+        ChangeLogComponent,
+        MultiselectComponent,
+        DaterangepickerComponent,
+        GridComponent,
         LoginComponent,
         ErrorComponent
+
     ],
     imports: [
         BrowserAnimationsModule,
@@ -87,9 +106,16 @@ import { ErrorComponent } from './components/error/error.component';
         MatSelectModule,
         MatInputModule,
         MatRadioModule,
+        MatIconModule,
+        MatMenuModule,
+        MatNativeDateModule,
+        MatTooltipModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
         NgxMatSelectSearchModule,
+        NgxDaterangepickerMd,
         HttpModule
-        //GroupModule
         
     ],
     providers: [

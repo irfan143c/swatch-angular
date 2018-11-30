@@ -48,6 +48,7 @@
                 </div>
               </div>
               <div class="card-content collapse show">
+                
                 <!-- User Details Section -->
                 <div class="card-body" *ngIf="userDetails">
                   <div class="card-text">
@@ -94,11 +95,15 @@
                         <div class="row mb-2">
                           <div class="col-md-6">
                             <mat-form-field class="w-75">
-                              <mat-select placeholder="Role" formControlName="roles">
+                              <mat-select placeholder="Role" formControlName="roles" #role>
                                 <mat-option value="administrator">Administrator</mat-option>
                                 <mat-option value="siteContact">Site Contact</mat-option>
                               </mat-select>
                             </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="role.value == 'siteContact'">
+                            <app-multiselectsearch [dropdownOptions]="surveyRolesData" formControlName="surveyRoles" [placeholder]="'Survey Role(s)'">
+                            </app-multiselectsearch>
                           </div>
                           <div class="col-md-6">
                             <div> <label>Account</label> </div>
@@ -162,6 +167,7 @@
                     <!-- </div> -->
                   </div>
                 </div>
+
               </div>
             </div>
         </div>

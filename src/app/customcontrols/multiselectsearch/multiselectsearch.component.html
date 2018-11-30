@@ -1,0 +1,15 @@
+<mat-form-field>
+  <mat-select  [placeholder]="placeholder" [(ngModel)]="selectValue" [multiple]="true" #multiSelect (change)="onChange()" #itemSelect="ngModel">
+    <ngx-mat-select-search [formControl]="multiFilterCtrl"></ngx-mat-select-search>
+    <mat-option *ngFor="let option of filteredMulti | async" [value]="option">
+      {{option.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button type="button" mat-icon-button color="primary" (click)="selectAll(itemSelect, selectAllData)">
+  <mat-icon>check_box</mat-icon>
+</button>
+<button type="button" mat-icon-button color="primary" (click)="deselectAll(itemSelect)">
+  <mat-icon>check_box_outline_blank</mat-icon>
+</button>

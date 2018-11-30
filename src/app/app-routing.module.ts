@@ -5,24 +5,19 @@ import { AuthGuard } from './shared/auth/auth-guard.service';
 import { UsersComponent } from './components/users/users.component';
 import { DashboradComponent } from './components/dashborad/dashborad.component';
 import { FacilitiesComponent } from './components/facilities/facilities.component';
-import { LoginComponent } from './components/login/login.component';
+import { ChangeLogComponent } from './changelog/changelog.component';
 import { ErrorComponent } from './components/error/error.component';
+import { LoginComponent } from './components/login/login.component';
 
 const appRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
-
-  
-  { path : 'error', component : ErrorComponent },
-  //{ path : 'dashboard', component : DashboradComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path : 'dashboard', component : DashboradComponent },
   { path : 'users', component : UsersComponent },
   { path : 'facilities', component : FacilitiesComponent },
-  //{ path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
-  { path: 'dashboard', component: DashboradComponent},
-  { path : '**', component : LoginComponent },
+  { path : 'error', component : ErrorComponent },
+  { path : 'login', component : LoginComponent },
+  { path: '**', redirectTo: 'login', pathMatch: 'full'},
+
   // { path: '', component: OneColumnLayoutComponent, data: { title: '' }, children: ONE_COLUMN_ROUTES, canActivate: [AuthGuard] },
   // { path: '', component: TwoColumnsLayoutComponent, data: { title: '' }, children: TWO_COLUMN_ROUTES, canActivate: [AuthGuard] },
   // { path: '', component: BoxedLayoutComponent, data: { title: '' }, children: BOXED_ROUTES, canActivate: [AuthGuard] },

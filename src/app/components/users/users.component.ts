@@ -13,6 +13,10 @@ export class UsersComponent implements OnInit {
 
   employeeForm : FormGroup;
 
+  surveyRolesData : any = [
+    { name: 'Chief Information Officer (CIO)', id: 'A' }
+  ];
+
   constructor(private fb: FormBuilder) {
     this.createForm();
   }
@@ -27,6 +31,7 @@ export class UsersComponent implements OnInit {
       email: [''],
       status: [''],
       roles: [''],
+      surveyRoles: [''],
       account : ['lock'],
       phone : [''],
       jobTitles : [''],

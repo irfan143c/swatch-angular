@@ -9,7 +9,7 @@ export class TwoColumnsLayoutComponent implements OnDestroy {
   constructor(private renderer: Renderer2) {
     this.renderer.addClass(document.body, '2-columns');
     this.renderer.setAttribute(document.body, 'data-col', '2-columns');
-   }
+  }
 
   ngOnDestroy() {
     this.renderer.removeClass(document.body, '2-columns');
