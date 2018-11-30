@@ -1,0 +1,337 @@
+/*================================================================================
+	Item Name: Stack - Responsive Admin Theme
+	Version: 3.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+
+
+/* .alert-primary {
+    border-color: #000 !important;
+	background-color:red!important;
+} */
+
+$logoBlueColor: #0877BA;
+$logoDarkGrayColor: #6f7375;
+$logoLightGrayColor: #abaeaf;
+
+$primaryColor: #0878BA!important;
+$primaryTextColor: #e9e9e9!important;
+$primaryBorderColor: #0467cc !important;
+$primaryBtnHovFocActColor: #2885BD!important;
+
+$secondaryColor: #d9dce1!important;
+$secondaryTextColor: #2a2a2a !important;
+$secondaryBorderColor: #cecece !important;
+$secondaryBtnHovFocActColor: #cecece !important;
+
+$successColor: #00C662!important;
+$successTextColor: #fff!important;
+$successBorderColor: #03b680 !important;
+$successBtnHovFocActColor: #21C973!important;
+
+$infoColor: #065889!important;
+$infoTextColor: #e1e1e1 !important;
+$infoBorderColor: #064b74 !important;
+$infoBtnHovFocActColor: #065889!important;
+
+$warningColor: #FF8C00!important;
+$warningTextColor: #515151 !important;
+$warningBorderColor: #e9850b !important;
+$warningBtnHovFocActColor: #FF9F2A!important;
+
+$dangerColor: #ff3000!important;
+$dangerTextColor: #f9f9f9 !important;
+$dangerBorderColor: #e53810 !important;
+$dangerBtnHovFocActColor: #ff6541 !important;
+
+$darkColor: #6f7375;
+$darkTextColor: #e1e1e1;
+$darkBorderColor: #676666;
+$darkBtnHovFocActColor: #909395;
+
+$lightColor: #abaeaf;
+$lightTextColor: #ffffff;
+$lightBorderColor: #979797;
+$lightBtnHovFocActColor: #cccece;
+
+.alert-primary {
+	background-color: $primaryColor;
+	color: $primaryTextColor;
+    border-color: $primaryBorderColor;
+}
+
+.btn-primary {
+	@extend .alert-primary;		
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {   
+	background-color: $primaryBtnHovFocActColor;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+	background-color: $primaryColor;
+	color: $primaryTextColor;
+}
+
+.btn-outline-primary {
+	border-color: $primaryColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $primaryColor; 
+}
+
+.alert-secondary {
+	color: $secondaryTextColor;
+    background-color: $secondaryColor;
+    border-color: $secondaryBorderColor;
+}
+
+.btn-secondary {
+	@extend .alert-secondary;		
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {   
+	background-color: $secondaryBtnHovFocActColor;
+}
+
+.btn-outline-secondary:hover, .btn-outline-secondary:focus, .btn-outline-secondary:active {
+	background-color: $secondaryColor;
+	color: $secondaryTextColor;
+}
+
+.btn-outline-secondary {
+	border-color: $secondaryColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $secondaryColor;
+}
+
+.alert-success {
+	background-color: $successColor;
+	color: $successTextColor;
+	border-color: $successBorderColor; 
+}
+
+.btn-success {
+	@extend .alert-success;		
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active {   
+	background-color: $successBtnHovFocActColor;
+}
+
+.btn-outline-success:hover, .btn-outline-success:focus, .btn-outline-success:active {
+	background-color: $successColor;
+	color: $successTextColor;
+}
+
+.btn-outline-success {
+	border-color: $successColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $successColor; 
+}
+
+
+.alert-info {
+	background-color: $infoColor;
+	border-color: $infoBorderColor;
+	color: $infoTextColor;
+}
+
+.btn-info {
+	@extend .alert-info;		
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active {   
+	background-color: $infoBtnHovFocActColor;
+}
+
+.btn-outline-info:hover, .btn-outline-info:focus, .btn-outline-info:active {
+	background-color: $infoColor;
+	color: $infoTextColor;
+}
+
+.btn-outline-info {
+	border-color: $infoColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $infoColor; 
+}
+
+.alert-warning {
+	background-color: $warningColor;
+	border-color: $warningBorderColor;
+	color: $warningTextColor;
+}
+
+.btn-warning {
+	@extend .alert-warning;		
+}
+
+.btn-warning:hover, .btn-warning:focus, .btn-warning:active {   
+	background-color: $warningBtnHovFocActColor;
+}
+
+.btn-outline-warning:hover, .btn-outline-warning:focus, .btn-outline-warning:active {
+	background-color: $warningColor;
+	color: $warningTextColor;
+}
+
+.btn-outline-warning {
+	border-color: $warningColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $warningColor; 
+}
+
+.alert-danger {
+	background-color: $dangerColor;
+	border-color: $dangerBorderColor;
+	color: $dangerTextColor;
+}
+
+.btn-danger {
+	@extend .alert-danger;		
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active {   
+	background-color: $dangerBtnHovFocActColor;
+}
+
+.btn-outline-danger:hover, .btn-outline-danger:focus, .btn-outline-danger:active {
+	background-color: $dangerColor;
+	color: $dangerTextColor;
+}
+
+.btn-outline-danger {
+	border-color: $dangerColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $dangerColor;	
+}
+
+.alert-dark {
+    color: $darkTextColor;
+    background-color: $darkColor;
+    border-color: $darkBorderColor;
+}
+
+.btn-dark {
+	@extend .alert-dark;		
+}
+
+.btn-dark:hover, .btn-dark:focus, .btn-dark:active {   
+	background-color: $darkBtnHovFocActColor;
+}
+
+.btn-outline-dark:hover, .btn-outline-dark:focus, .btn-outline-dark:active {
+	background-color: $darkColor;
+	color: $darkTextColor;
+}
+
+.btn-outline-dark {
+	border-color: $darkColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $darkColor; 
+}
+
+.alert-light {
+    color: $lightTextColor;
+    background-color: $lightColor;
+    border-color: $lightBorderColor;
+}
+
+.btn-light {
+	@extend .alert-light;		
+}
+
+.btn-light:hover, .btn-light:focus, .btn-light:active {   
+	background-color: $lightBtnHovFocActColor;
+}
+
+.btn-outline-light:hover, .btn-outline-light:focus, .btn-outline-light:active {
+	background-color: $lightColor;
+	color: $lightTextColor;
+}
+
+.btn-outline-light {
+	border-color: $lightColor; 
+	border-style: solid;
+	border-width: 1px;
+	color: $lightColor; 
+}
+
+.alert-primary .alert-link  {
+	color: $primaryTextColor;
+}
+
+.alert-secondary .alert-link  {
+	color: $secondaryTextColor;
+}
+
+.alert-success .alert-link  {
+	color: $successTextColor;
+}
+
+.alert-info .alert-link  {
+	color: $infoTextColor;
+}
+
+.alert-warning .alert-link  {
+	color: $warningTextColor;
+}
+
+.alert-danger .alert-link  {
+	color: $dangerTextColor;
+}
+
+.alert-dark .alert-link  {
+	color: $darkTextColor;
+}
+
+.alert-light .alert-link  {
+	color: $lightTextColor;
+}
+
+.popover-header, .popover-body {
+	background-color: #0877BA;
+	color: white;
+}
+
+.bs-popover-top .arrow::after, .bs-popover-auto[x-placement^="top"] .arrow::after {    
+    border-top-color: #0877ba;
+}
+
+.modal-dialog .modal-footer {
+	border-top: 1px solid #0877ba;
+}
+
+.modal-dialog .modal-header {
+	background-color: #0877BA;
+    color: #f7f7f7;
+}
+
+.modal-dialog .close {
+	color: #fff;
+}
+
+#card-actions .card-header {
+	background-color: $logoBlueColor;
+}
+
+#card-actions .card-header .card-title {
+	color: #e1e1e1;
+}
+
+#card-actions .card-header i{
+	color: #e1e1e1;
+}

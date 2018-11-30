@@ -1,0 +1,87 @@
+.secure-watch-logo {
+    width: 100%;
+}
+
+.ft-user, .fa-key {
+    margin-right: 14px;
+}
+
+.form-simple input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0; }
+  
+  .form-simple input[type="mail"] {
+    margin-bottom: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0; }
+  
+  .form-simple input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
+  
+  .help-block ul {
+    margin: 0  !important;
+    padding: 0 !important; }
+    .help-block ul li {
+      list-style: none; }
+
+      .pace {
+        -webkit-pointer-events: none;
+        pointer-events: none;
+  
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+  
+      .pace-inactive {
+        display: none;
+      }
+  
+      .pace .pace-progress {
+        background: #ff6275;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        right: 100%;
+        width: 100%;
+        height: 3px;
+      }
+  
+      .pace .pace-activity {
+        top: 19px;
+        right: 19px;
+        display: none;
+      }
+  
+      .page-loading {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        background-color: #F5F7FA;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: -1;
+      }
+  
+      .loading-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 38px;
+        height: 38px;
+        margin-left: -19px;
+        margin-top: -19px;
+      }
+  
+      app-root:empty~.page-loading {
+        opacity: 1;
+        z-index: 1;
+      }
