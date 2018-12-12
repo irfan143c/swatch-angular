@@ -1,3 +1,5 @@
+import { QuestionCategoriesComponent } from './components/question-categories/question-categories.component';
+import { QuestionsComponent } from './components/questions/questions.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
@@ -12,6 +14,8 @@ import { FacilitytypeComponent } from './components/facilitytype/facilitytype.co
 import { FacilityregionComponent } from './components/facilityregion/facilityregion.component';
 import { VulnerabilitiesComponent } from './components/vulnerabilities/vulnerabilities.component';
 import { RecommendationsComponent } from './components/recommendations/recommendations.component';
+import { ResponseManagerComponent } from 'app/components/response-manager/response-manager.component';
+import { SurveyRolesComponent } from 'app/components/survey-roles/survey-roles.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,6 +28,10 @@ const appRoutes: Routes = [
   { path : 'recommendations', component : RecommendationsComponent },
   { path : 'error', component : ErrorComponent },
   { path : 'login', component : LoginComponent },
+  { path : 'questions', component : QuestionsComponent },
+  { path : 'questionCategories', component : QuestionCategoriesComponent },
+  { path : 'responseManager', component : ResponseManagerComponent },
+  { path : 'surveyRoles', component : SurveyRolesComponent },
   { path: '**', redirectTo: 'login', pathMatch: 'full'},
 
   // { path: '', component: OneColumnLayoutComponent, data: { title: '' }, children: ONE_COLUMN_ROUTES, canActivate: [AuthGuard] },

@@ -287,7 +287,7 @@ export class FacilitiesComponent implements OnInit, OnDestroy {
     // console.log(singleFacilityData);
 
     this.facilityForm.setValue({
-      facility : singleFacilityData.facility,
+      facility : singleFacilityData.buName,
       facilityType : singleFacilityData.facilityType,
       region : singleFacilityData.region,
       threatLevel : singleFacilityData.threatLevel,

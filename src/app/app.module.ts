@@ -1,3 +1,7 @@
+import { SurveyRolesComponent } from './components/survey-roles/survey-roles.component';
+import { ResponseManagerComponent } from './components/response-manager/response-manager.component';
+import { QuestionCategoriesComponent } from './components/question-categories/question-categories.component';
+import { QuestionsComponent } from './components/questions/questions.component';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -69,6 +73,10 @@ import { FacilitytypeComponent } from './components/facilitytype/facilitytype.co
 import { FacilityregionComponent } from './components/facilityregion/facilityregion.component';
 import { VulnerabilitiesComponent } from './components/vulnerabilities/vulnerabilities.component';
 import { RecommendationsComponent } from './components/recommendations/recommendations.component';
+import { GriddataService } from 'app/services/griddata.service';
+
+
+
 
 
 
@@ -107,7 +115,11 @@ import { RecommendationsComponent } from './components/recommendations/recommend
         FacilitytypeComponent,
         FacilityregionComponent,
         VulnerabilitiesComponent,
-        RecommendationsComponent
+        RecommendationsComponent,
+        QuestionsComponent,
+        QuestionCategoriesComponent,
+        ResponseManagerComponent,
+        SurveyRolesComponent
 
     ],
     imports: [
@@ -140,7 +152,8 @@ import { RecommendationsComponent } from './components/recommendations/recommend
     providers: [
         AuthService,
         AuthGuard,
-        FilterService
+        FilterService,
+        GriddataService
     ],
     bootstrap: [AppComponent]
 })

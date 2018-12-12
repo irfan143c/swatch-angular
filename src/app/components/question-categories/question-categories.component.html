@@ -1,0 +1,131 @@
+<div class="app-content content">
+    <div class="content-wrapper">
+  
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-1">
+          <h3 class="content-header-title">Question Categories</h3>
+        </div>
+        <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+          <div class="breadcrumb-wrapper col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a>Home</a>
+              </li>
+              <li class="breadcrumb-item active">Question Categories
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+  
+      <div class="content-body">
+        <section class="row">
+          <div class="col-sm-12">
+             <div id="user-details" class="card" >
+                <div class="card-header">
+                  <h4 class="card-title" *ngIf="userForm">Add Category</h4>
+                  <button class="btn mr-1 mb-1 btn-outline-primary"  (click)="showHide('add')" >Add Category</button>
+                  <a class="heading-elements-toggle">
+                    <i class="fa fa-ellipsis-v font-medium-3"></i>
+                  </a>
+                  <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                      <li>
+                        <a data-action="collapse">
+                          <i class="ft-minus"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-action="reload">
+                          <i class="ft-rotate-cw"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-action="close">
+                          <i class="ft-x"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-content collapse show">
+
+                  <!-- Questions Table Section -->
+                <div class="card-body" *ngIf="questionCategoryDetails">
+
+                    <app-grid [tableData]="questionCategories" (getRowdata)="emittedValue($event)" [action]="false" [visibleColumns]="columnsList"></app-grid>
+                </div>
+                  
+                  <!-- Category Details Section -->
+                  
+  
+                  <!-- Category Form Section -->
+                  <div class="card-body" *ngIf="questionCatForm">
+                    <div class="card-text">
+                      <!-- <div class="mat-container"> -->
+                      <form class="form" [formGroup]="qcatForm" (ngSubmit)="onSubmit()">
+                        <div class="form-body">
+                          <h4 class="form-section"><i class="ft-user"></i> Category Info</h4>
+                          <div class="row mb-2">
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input id="categoryName" matInput placeholder="Question Category" formControlName="categoryName">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input id="threshold" matInput placeholder="Threshold" formControlName="threshold">
+                                <div class="form-control-position">
+                                    <i class="ft-percent info font-medium-4"></i>
+                                  </div>
+                              </mat-form-field>
+                            </div>
+                          </div>
+  
+                          <div class="row mb-2 pt-2 ">
+                            <div class="col-md-6">
+                                      <app-multiselectsearch [dropdownOptions]="surveyRoles" formControlName="jobRoles" [placeholder]="'Survey Role(s)'">
+                                      </app-multiselectsearch>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <mat-select placeholder="Status" formControlName="status">
+                                  <mat-option value="active">Active</mat-option>
+                                  <mat-option value="inactive">Inactive</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </div>
+  
+                          <div class="row mb-2">
+                            <div class="col-md-6">
+                              <mat-form-field class="full-width">
+                                  <textarea matInput placeholder="Description" formControlName="description"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+  
+  
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button class="float-right btn-danger" type="button" mat-raised-button (click)="showHide('cancel')">Cancel</button>
+                              <button class="float-right mr-1 btn-primary" type="submit" mat-raised-button>Save</button>
+                            </div>
+  
+                          </div>
+                        </div>
+                      </form>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+          </div>
+  
+        
+        </section>
+      </div>
+  
+    </div>
+  </div>

@@ -12,8 +12,10 @@ import { Observable } from 'rxjs';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-
-  constructor(private loginService1:LoginService) { }
+  showNav:boolean=false;
+  constructor(private loginService1:LoginService) { 
+    this.showNav=false;
+  }
 
   ngOnInit() {
     this.loginForm = new FormGroup({

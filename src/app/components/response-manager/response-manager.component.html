@@ -1,0 +1,197 @@
+<div class="app-content content">
+    <div class="content-wrapper">
+  
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-1">
+          <h3 class="content-header-title">Response Manager</h3>
+        </div>
+        <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+          <div class="breadcrumb-wrapper col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a>Home</a>
+              </li>
+              <li class="breadcrumb-item active">Response Manager
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+  
+      <div class="content-body">
+        <section class="row">
+          <div class="col-sm-12">
+             <div id="user-details" class="card" >
+                <div class="card-header">
+                  <h4 class="card-title" *ngIf="rManagerForm">Add Response</h4>
+                  <button class="btn mr-1 mb-1 btn-outline-primary" *ngIf="responseManagerDetails" (click)="showHide('add')" >Add Response</button>
+                  <a class="heading-elements-toggle">
+                    <i class="fa fa-ellipsis-v font-medium-3"></i>
+                  </a>
+                  <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                      <li>
+                        <a data-action="collapse">
+                          <i class="ft-minus"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-action="reload">
+                          <i class="ft-rotate-cw"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-action="close">
+                          <i class="ft-x"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-content collapse show">
+                  
+                  <!-- Response Manager Details Section -->
+                  <div class="card-body" *ngIf="responseManagerDetails">
+                    <div class="card-text">
+                        <app-grid [tableData]="responseBeanList" (getRowdata)="emittedValue($event)" [action]="false" [visibleColumns]="columnsList"></app-grid>
+                    </div>
+                  </div>
+  
+                  <!-- Response Manager Form Section -->
+                  <div class="card-body" *ngIf="rManagerForm">
+                    <div class="card-text">
+                      <!-- <div class="mat-container"> -->
+                      <form class="form" [formGroup]="respMForm" (ngSubmit)="onSubmit()">
+                        <div class="form-body">
+                          <h4 class="form-section"><i class="ft-user"></i> Response Type Info</h4>
+                          <div class="row mb-2">
+                            <div class="col-md-4">
+                              <mat-form-field class="w-75">
+                                <input id="name" matInput placeholder="Custom Response Name" formControlName="name">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                              <mat-form-field class="w-75">
+                                  <mat-select placeholder="Response Type" formControlName="responseType" (change)="typeSelection($event)">
+                                      <mat-option value="multiple">Multiple Choice</mat-option>
+                                      <mat-option value="single">Single Response</mat-option>
+                                    </mat-select>
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4">
+                                <mat-form-field class="w-75">
+                                  <!-- <input id="options" matInput placeholder="No.of Options" formControlName="options" (ngModelChange)="valuechange($event)"> -->
+                                  <mat-select placeholder="No.of Options" formControlName="options" (change)="valuechange($event)">
+                                      <mat-option value="0">0</mat-option>
+                                      <mat-option value="1">1</mat-option>
+                                      <mat-option value="2">2</mat-option>
+                                      <mat-option value="3">3</mat-option>
+                                      <mat-option value="4">4</mat-option>
+                                      <mat-option value="5">5</mat-option>
+                                      <mat-option value="6">6</mat-option>
+                                      <mat-option value="7">7</mat-option>
+                                      <mat-option value="8">8</mat-option>
+                                      <mat-option value="9">9</mat-option>
+                                      <mat-option value="10">10</mat-option>
+                                      <mat-option value="11">11</mat-option>
+                                      <mat-option value="12">12</mat-option>
+                                      <mat-option value="13">13</mat-option>
+                                      <mat-option value="14">14</mat-option>
+                                      <mat-option value="15">15</mat-option>
+                                      <mat-option value="16">16</mat-option>
+                                      <mat-option value="17">17</mat-option>
+                                      <mat-option value="18">18</mat-option>
+                                      <mat-option value="19">19</mat-option>
+                                      <mat-option value="20">20</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                              </div>
+                          </div>
+
+                          <div class="row mb-2" *ngIf="optionsSelected" >
+                              <div class="col-md-4" style="border-style:solid;">
+                                  <table>
+                                      <tr>
+                                          <th>Provide Response Text & Weight</th>
+                                         
+                                        </tr>
+                                        <div formArrayName="items"
+                                        *ngFor="let item of respMForm.get('items').controls; let i = index;">
+                                       
+                                      <tr >
+                                          <div [formGroupName]="i">
+                                        <td>
+                                            <mat-form-field class="w-75">
+                                                <input id="responseText" matInput placeholder="Response text" formControlName="responseText" (change)="createCompliantResponse($event)" >
+                                              </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field class="w-75">
+                                                <mat-select placeholder="Response Weight" formControlName="optionWeight">
+                                                    <mat-option value="0">0(Non Answered)</mat-option>
+                                                    <mat-option value="1">1(Low)</mat-option>
+                                                    <mat-option value="2">2</mat-option>
+                                                    <mat-option value="3">3</mat-option>
+                                                    <mat-option value="4">4</mat-option>
+                                                    <mat-option value="5">5(High)</mat-option>
+                                                  </mat-select>
+                                               
+                                              </mat-form-field>
+                                        </td>   </div> 
+                                        </tr>
+                                       
+                                        </div>
+                                     </table>
+                              </div>
+                              
+
+                                  <div class="col-md-4" *ngIf="optionsSelected">
+                                      <mat-form-field>
+                                          <mat-select placeholder="Compliant Response" formControlName="comresponse" multiple>
+                                            <mat-option *ngFor="let topping of comresponses" [value]="topping">{{topping}}</mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      
+                                  </div>
+
+                                  <div class="col-md-4" *ngIf="multipleSelected">
+                                      <mat-form-field>
+                                      <mat-select placeholder="Question Weight Based On" formControlName="calType">
+                                          <mat-option value="maximum">Highest value from selection</mat-option>
+                                          <mat-option value="average">Average of values selected</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                      
+                                  </div>
+
+
+                          </div>
+  
+                          
+  
+                          
+  
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button class="float-right btn-danger" type="button" mat-raised-button (click)="showHide('cancel')">Cancel</button>
+                              <button class="float-right mr-1 btn-primary" type="submit" mat-raised-button>Save</button>
+                            </div>
+  
+                          </div>
+                        </div>
+                      </form>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+          </div>
+  
+        
+        </section>
+      </div>
+  
+    </div>
+  </div>
