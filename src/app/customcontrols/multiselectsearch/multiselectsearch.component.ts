@@ -29,9 +29,12 @@ export class MultiselectsearchComponent implements OnInit, ControlValueAccessor 
   @Input() dropdownOptions: any;
   @Input() placeholder: any;
   @Output() onCheck = new EventEmitter();
+  @Input() classes: any;
   arrayData: any;
 
   selectAllData: any = [];
+
+  selectedAll = [];
 
   /** control for the MatSelect filter keyword multi-selection */
   public multiFilterCtrl: FormControl = new FormControl();
@@ -54,7 +57,7 @@ export class MultiselectsearchComponent implements OnInit, ControlValueAccessor 
         });
 
       this.filteredMulti.subscribe((data) => {
-        this.selectAllData = data;
+        this.selectAllData = data;        
       })
 
     }
@@ -62,15 +65,20 @@ export class MultiselectsearchComponent implements OnInit, ControlValueAccessor 
   }
 
   selectAll(select: NgModel, values) {
-    select.update.emit(values);
+    values.forEach(value => {
+      this.selectedAll.push(value.id)
+    });
+
+    select.update.emit(this.selectedAll);
   }
 
   deselectAll(select: NgModel) {
+    this.selectedAll.length = 0;
     select.update.emit([]);
   }
 
   onChange() {
-    this.onCheck.emit();
+    this.onCheck.emit();    
   }
 
   private filterBanksMulti() {

@@ -18,7 +18,10 @@ import {
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatCardModule
 } from '@angular/material';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -59,6 +62,13 @@ import { GridComponent } from './customcontrols/grid/grid.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HttpModule } from '@angular/http';
+import { NumberDirective } from './directives/number.directive';
+import { AutocompleteComponent } from './customcontrols/autocomplete/autocomplete.component';
+import { FilterService } from './services/filter.service';
+import { FacilitytypeComponent } from './components/facilitytype/facilitytype.component';
+import { FacilityregionComponent } from './components/facilityregion/facilityregion.component';
+import { VulnerabilitiesComponent } from './components/vulnerabilities/vulnerabilities.component';
+import { RecommendationsComponent } from './components/recommendations/recommendations.component';
 
 
 
@@ -91,7 +101,13 @@ import { HttpModule } from '@angular/http';
         DaterangepickerComponent,
         GridComponent,
         LoginComponent,
-        ErrorComponent
+        ErrorComponent,
+        NumberDirective,
+        AutocompleteComponent,
+        FacilitytypeComponent,
+        FacilityregionComponent,
+        VulnerabilitiesComponent,
+        RecommendationsComponent
 
     ],
     imports: [
@@ -113,6 +129,9 @@ import { HttpModule } from '@angular/http';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatAutocompleteModule,
+        MatCheckboxModule,
+        MatCardModule,
         NgxMatSelectSearchModule,
         NgxDaterangepickerMd,
         HttpModule
@@ -120,7 +139,8 @@ import { HttpModule } from '@angular/http';
     ],
     providers: [
         AuthService,
-        AuthGuard
+        AuthGuard,
+        FilterService
     ],
     bootstrap: [AppComponent]
 })

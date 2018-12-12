@@ -23,7 +23,7 @@
         <div class="col-sm-12">
           <div id="user-details" class="card">
             <div class="card-header">
-              <h4 class="card-title">Facility</h4>
+              <h4 class="card-title" *ngIf="newFacilityForm">Add New Facility</h4>
               <a class="heading-elements-toggle">
                 <i class="fa fa-ellipsis-v font-medium-3"></i>
               </a>
@@ -48,20 +48,117 @@
               </div>
             </div>
             <div class="card-content collapse show">
-              <!-- User Details Section -->
-              <div class="card-body">
-                <div class="card-text">
-                  <button class="btn-primary" mat-raised-button (click)="showHide()">Add New Facility</button>
+              <!-- Facility Details Section -->
+              <div class="card-body" *ngIf="facilityGrid">
+                <div class="card-text mb-2">
+
+                  <!-- Filter -->
+                  <span ngbDropdown>
+                    <button class="btn mr-1 mb-1 btn-outline-primary" id="dropdownConfig" ngbDropdownToggle>
+                      <i class="ft-filter"></i> Filter
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                      <form [formGroup]="filterForm">
+                        <div formArrayName="aliases">
+                          <div *ngFor="let address of aliases.controls; let i=index">
+
+                            <div [formGroupName]="i">
+
+                              <div class="float-left mt-1">
+                                <label class="dropdownClause pr-2" *ngIf="i == 0">Where</label>
+                                <select *ngIf="i  ==  1" class="form-control dropdownClause" [formControl]="clauseDropdown"
+                                  id="sel1">
+                                  <option *ngFor="let option of options">{{option}} </option>
+                                </select>
+                                <label class="dropdownClause mr-2 ml-2" *ngIf="i > 1"> {{clauseDropdown.value}}
+                                </label>
+                              </div>
+
+                              <mat-form-field class="filterFormFields mr-1">
+                                <mat-select formControlName="columnVal" placeholder="Columns" #columnInput>
+                                  <mat-option *ngFor="let column of displayedColumns" [value]="column">
+                                    {{ column }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field *ngIf="columnInput.value==null" class="filterFormFields mr-1">
+                                <mat-select formControlName="numClauseVal" placeholder="Clauses">
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field *ngIf=" 
+                                    columnInput.value=='threatLevelValue' ||
+                                    columnInput.value=='consequence' ||
+                                    columnInput.value=='zip' ||
+                                    columnInput.value=='lat' ||
+                                    columnInput.value=='long' "
+                                class="filterFormFields mr-1">
+                                <mat-select formControlName="numClauseVal" placeholder="Clauses" [(value)]="searchCondition[columnInput.value]">
+                                  <mat-option *ngFor="let clause of numberClauses" [value]="clause.value">
+                                    {{clause.label}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field *ngIf="
+                                    columnInput.value=='facility' ||
+                                    columnInput.value=='facilityType' ||
+                                    columnInput.value=='region' ||
+                                    columnInput.value=='threatLevel' ||
+                                    columnInput.value=='threatSource' ||
+                                    columnInput.value=='questionCategories' ||
+                                    columnInput.value=='thirdPartyData' ||
+                                    columnInput.value=='siteContact' ||
+                                    columnInput.value=='address' ||
+                                    columnInput.value=='city' ||
+                                    columnInput.value=='state' ||
+                                    columnInput.value=='country' ||
+                                    columnInput.value=='siteSupervisor' ||
+                                    columnInput.value=='worldAware' "
+                                class="filterFormFields mr-1">
+                                <mat-select formControlName="strClauseVal" placeholder="Clauses" [(value)]="searchCondition[columnInput.value]">
+                                  <mat-option *ngFor="let clause of stringClauses" [value]="clause.value">
+                                    {{clause.label}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field class="filterFormFields mr-1">
+                                <input matInput formControlName="filterVal" placeholder="Filter" autocomplete="off">
+                              </mat-form-field>
+
+                              <button mat-icon-button (click)="removeFilter(i)">
+                                <mat-icon class="mat-icon-fs">clear</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                          <button mat-mini-fab class="btn-primary" (click)="addFilter()" matTooltip="Add Filter">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                          <button mat-raised-button class="btn-primary float-right" (click)="applyFilter(filterForm)">
+                            Apply</button>
+                        </div>
+                      </form>
+                    </div>
+                  </span>
+                  <!-- Filter End -->
+
+                  <button class="btn mr-1 mb-1 btn-outline-primary" (click)="showHide()">Add New Facility</button>
                 </div>
+
+                <app-grid [tableData]="facilityData" (getRowdata)="emittedValue($event)" [action]="true"
+                  [visibleColumns]="columnsList"></app-grid>
+
               </div>
 
               <!-- Facility Form Section -->
-              <div class="card-body">
+              <div class="card-body" *ngIf="newFacilityForm">
                 <div class="card-text">
                   <!-- <div class="mat-container"> -->
                   <form class="form" [formGroup]="facilityForm" (ngSubmit)="onSubmit()">
                     <div class="form-body">
-                      <h4 class="form-section"><i class="ft-user"></i> Facility Info</h4>
+                      <h4 class="form-section"><i class="ft-box"></i> Facility Info</h4>
                       <div class="row mb-2">
                         <div class="col-md-4">
                           <mat-form-field class="w-100">
@@ -80,9 +177,13 @@
 
                       <div class="row mb-2">
                         <div class="col-md-4">
-                          <app-multiselect [options]="threatLevels" [placeholder]="'Set Threat Level'" formControlName="threatLevel"></app-multiselect>
+                          <app-multiselect [options]="threatLevels" [placeholder]="'Set Threat Level'" formControlName="threatLevel"
+                            (onCheck)="checkThreatLevels()"></app-multiselect>
                         </div>
                         <div class="col-md-4">
+                          <app-multiselect *ngIf="checkDetermineData" [options]="thirdPartyData" [placeholder]="'Available Third Party Data options'"
+                            formControlName="thirdPartyDataOptions" (onCheck)="checkThirdParties()">
+                          </app-multiselect>
                         </div>
                         <div class="col-md-4">
                           <mat-form-field class="w-100">
@@ -102,21 +203,79 @@
                           </mat-form-field>
                         </div>
                         <div class="col-md-4">
+                          <mat-form-field class="w-100" *ngIf="checkManual">
+                            <mat-select placeholder="Threat Level For Manual" formControlName="threatLevelManual">
+                              <mat-option *ngFor="let consequence of consequences" [value]="consequence">
+                                {{ consequence }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
                         </div>
                         <div class="col-md-4">
+                          <mat-form-field class="w-100" *ngIf="checkThreatSurvey">
+                            <input matInput placeholder="Threat Level For Threat Survey" formControlName="threatLevelThreatSurvey">
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row mb-2">
+                        <div class="col-md-4">
+                          <mat-form-field class="w-100" *ngIf="checkCapIndex">
+                            <input matInput placeholder="Threat Level For Cap Index" formControlName="threatLevelForCap">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="w-100" *ngIf="checkGI">
+                            <input matInput placeholder="Threat Level For Global Incident" formControlName="threatLevelForGI">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="w-100" *ngIf="checkGI">
+                            <input matInput placeholder="Incidents Per 100 Square Meter" formControlName="incidentsPer100SquareMeter">
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                          <mat-form-field class="w-100" *ngIf="checkSG">
+                            <input matInput placeholder="Threat Level For Security Gauge" formControlName="threatLevelForSG">
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row mb-2" *ngIf="checkManual">
+                        <div class="col-md-12">
+                          <mat-form-field class="w-100">
+                            <textarea matInput placeholder="Threat Source" formControlName="threatSource"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row mb-2">
+                        <div class="col-md-4" *ngIf="checkThreatSurvey">
+                          <app-multiselectsearch [dropdownOptions]="questionCategoriesData" formControlName="questionCategories"
+                            [placeholder]="'Select Question Categories For Threat Survey'">
+                          </app-multiselectsearch>
+                        </div>
+                        <div class="col-md-4">
+                          <app-daterangepicker *ngIf="checkThreatSurvey" [placeholder]="'Start Date - End Date'"
+                            formControlName="startEndDates"></app-daterangepicker>
                         </div>
                       </div>
 
                       <div class="row mb-2 pt-2 border-top">
                         <div class="col-md-4">
-                            <app-multiselectsearch [dropdownOptions]="siteContactsData" formControlName="siteContact" [placeholder]="'Site Contact(s)'">
-                            </app-multiselectsearch>
+                          <app-multiselectsearch [dropdownOptions]="siteContactsData" formControlName="siteContact"
+                            [placeholder]="'Site Contact(s)'">
+                          </app-multiselectsearch>
                         </div>
                         <div class="col-md-4">
-                            <app-selectsearch [placeholder]="'Site Supervisor'" [dropdownOptions]="siteSupervisors" formControlName="siteSupervisor"></app-selectsearch>
+                          <app-selectsearch [placeholder]="'Site Supervisor'" [dropdownOptions]="siteSupervisors"
+                            formControlName="siteSupervisor"></app-selectsearch>
                         </div>
                         <div class="col-md-4">
-                            
+                          <mat-form-field class="w-100" *ngIf="checkDetermineData">
+                            <input matInput placeholder="Radius" formControlName="radius">
+                          </mat-form-field>
                         </div>
                       </div>
 
@@ -134,10 +293,27 @@
                         </div>
                       </div>
 
+                      <div class="row mb-2">
+                        <div class="col-md-3">
+                            <app-autocomplete [placeholder]="'City'" [options]="cityData" formControlName="city"></app-autocomplete>
+                        </div>
+                        <div class="col-md-3" *ngIf="isCountry">
+                            <app-autocomplete [placeholder]="'State'" [options]="stateData" formControlName="state"></app-autocomplete>
+                        </div>
+                        <div class="col-md-3">
+                          <mat-form-field class="w-100">
+                            <input matInput Number placeholder="Zip" formControlName="zip">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <app-autocomplete [placeholder]="'Country'" [options]="countryData" formControlName="country" (change)="checkCountry()"></app-autocomplete>
+                        </div>
+                      </div>
+
 
                       <div class="row">
                         <div class="col-md-12">
-                          <button class="float-right btn-danger" type="button" mat-raised-button>Cancel</button>
+                          <button class="float-right btn-danger" type="button" mat-raised-button (click)="showHide();">Cancel</button>
                           <button class="float-right mr-1 " type="button" mat-raised-button disabled>Delete</button>
                           <button class="float-right mr-1 btn-primary" type="submit" mat-raised-button>Save</button>
                         </div>
@@ -155,6 +331,37 @@
         </div>
 
       </section>
+
+      <div class="row" *ngIf="facilityGrid">
+        <div class="col-12">
+          <div id="accordionEvent" role="tablist" aria-multiselectable="true">
+            <div class="card collapse-icon accordion-icon-rotate acc-border">
+              <div id="userInfo" class="card-header">
+                <h4 class="card-title">Events
+                  <a data-toggle="collapse" data-parent="#accordionEvent" href="#eventAccordion" aria-expanded="false"
+                    aria-controls="eventAccordion" class="card-title lead collapsed">
+                    <i class="ft-chevron-down" style="font-size: 25px;"></i>
+                  </a>
+                </h4>
+              </div>
+
+              <div id="eventAccordion" role="tabpanel" aria-labelledby="userInfo" class="collapse" aria-expanded="false"
+                style="height: 0px;">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col-md-12">
+                        <app-grid [tableData]="eventData" [action]="false" [visibleColumns]="eventColumnsList"></app-grid>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>

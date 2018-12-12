@@ -20,6 +20,8 @@ export class DaterangepickerComponent implements OnInit, ControlValueAccessor {
   private _onTouchedCallback: () => {};
   private _onChangeCallback: (_:any) => {};
 
+  @Input() placeholder : string;
+
   constructor() { }
 
   ngOnInit() {

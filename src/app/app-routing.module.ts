@@ -8,12 +8,20 @@ import { FacilitiesComponent } from './components/facilities/facilities.componen
 import { ChangeLogComponent } from './changelog/changelog.component';
 import { ErrorComponent } from './components/error/error.component';
 import { LoginComponent } from './components/login/login.component';
+import { FacilitytypeComponent } from './components/facilitytype/facilitytype.component';
+import { FacilityregionComponent } from './components/facilityregion/facilityregion.component';
+import { VulnerabilitiesComponent } from './components/vulnerabilities/vulnerabilities.component';
+import { RecommendationsComponent } from './components/recommendations/recommendations.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path : 'dashboard', component : DashboradComponent },
   { path : 'users', component : UsersComponent },
   { path : 'facilities', component : FacilitiesComponent },
+  { path : 'facilitytype', component : FacilitytypeComponent },
+  { path : 'facilityregion', component : FacilityregionComponent },
+  { path : 'vulnerabilities', component : VulnerabilitiesComponent },
+  { path : 'recommendations', component : RecommendationsComponent },
   { path : 'error', component : ErrorComponent },
   { path : 'login', component : LoginComponent },
   { path: '**', redirectTo: 'login', pathMatch: 'full'},

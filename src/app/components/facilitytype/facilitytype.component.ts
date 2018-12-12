@@ -1,30 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FilterService } from '../../services/filter.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-facilitytype',
+  templateUrl: './facilitytype.component.html',
+  styleUrls: ['./facilitytype.component.scss']
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class FacilitytypeComponent implements OnInit {
 
-  userDetails: boolean = true;
-  userForm: boolean = false;
-  columnsList: any;
-  userData: any = [];
-  eventData: any = [];
-  eventColumnsList: any;
-  employeeForm: FormGroup;
-  surverolesStat: boolean = false;
-  surveyRolesData: any = [
-    { name: 'A', id: 1 },
-    { name: 'B', id: 2 },
-    { name: 'C', id: 3 },
-    { name: 'D', id: 4 },
-    { name: 'E', id: 5 }
-  ];
+  facilityTypeGrid : boolean = true;
+  newFacilityTypeForm : boolean = false;
+  criticalityScores: any = [];
+  facilityTypeForm : FormGroup;
+  facilityTypeData : any;
+  columnsList : any;
+  eventData : any;
+  eventColumnsList : any;
 
   //Variables for filter--------------------
   displayedColumns = [];
@@ -76,7 +69,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
   //End Variables for filter-------------------
 
-
   constructor(private fb: FormBuilder, config: NgbDropdownConfig, private filter : FilterService) {
     this.createForm();
     this.clauseDropdown.setValue('and', { onlySelf: true })
@@ -86,37 +78,28 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.userData = [
-      { email: 'john1@gmail.com', firstName: 'John1', lastName: 'Snow1', facility: '-', role: 'administrator', status: 'active', accountNonLocked: 'unlock', phone: 225581, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john2@gmail.com', firstName: 'John2', lastName: 'Snow2', facility: '-', role: 'administrator', status: 'active', accountNonLocked: 'lock', phone: 225582, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john3@gmail.com', firstName: 'John3', lastName: 'Snow3', facility: '-', role: 'siteContact', status: 'inactive', accountNonLocked: 'lock', phone: 225583, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john4@gmail.com', firstName: 'John4', lastName: 'Snow4', facility: '-', role: 'administrator', status: 'inactive', accountNonLocked: 'unlock', phone: 225584, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john5@gmail.com', firstName: 'John5', lastName: 'Snow5', facility: '-', role: 'siteContact', status: 'inactive', accountNonLocked: 'unlock', phone: 225585, sessionTimeOut: 15, jobTitles: '', surveyRole: [1,4] },
-      { email: 'john6@gmail.com', firstName: 'John6', lastName: 'Snow6', facility: '-', role: 'siteContact', status: 'active', accountNonLocked: 'unlock', phone: 225586, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
+    this.facilityTypeData = [
+      { facilityType : 'Correctional', description : 'Includes all facilities for the processing, holding, and incarceration of offenders. Does not include temporary holding areas that are part of a law enforcement facility.', criticalityScore : 3, status : 'active', facility : '' },
+      { facilityType : 'Educational', description : 'Includes all facilities providing educational services including public and private schools (K-12), vocational schools, and universities. This facility type also includes on campus housing.', criticalityScore : 2, status : 'active', facility : '' },
+      { facilityType : 'Emergency Services', description : 'Includes all facilities providing emergency services but that are not part of law enforcement such as 911 call centers, fire departments, etc.	', criticalityScore : 5, status : 'active', facility : '' },
+      { facilityType : 'Government', description : 'Any facility or building belonging to, under the control of, or leased by a municipal, state, or federal government agency.	', criticalityScore : 4, status : 'active', facility : '' },
+      { facilityType : 'Health Care', description : 'Includes and facility providing health care to the public such as clinics, hospitals, diagnostic centers, and individual practitioners.	', criticalityScore : 3, status : 'active', facility : '' },
+      { facilityType : 'Heavy Industrial', description : 'Heavy industrial facilities include major manufacturing sites such as automobile plants, petroleum refineries, and similar facilities that are not government owned or operated and are not considered part of the critical infrastructure of the area.	', criticalityScore : 4, status : 'active', facility : '' },
     ];
 
-    this.columnsList = ['option', 'email', 'firstName', 'lastName', 'role', 'status'];
+    this.columnsList = ['option', 'facilityType', 'description', 'criticalityScore', 'status', 'facility'];
 
     this.eventData = [
-      { actionPerformed: '', performedBy: '', module: '', actionDate: '', viewDetails: '', beforeChange: '', afterChange: '', data: '', time: '', assessment: '' }
+      {actionPerformed : '', performedBy : '', module : '', actionDate : '', viewDetails : '', beforeChange : '', afterChange : '', data : '', time : '', assessment : '' }
     ];
     this.eventColumnsList = ['option', 'actionPerformed', 'performedBy', 'module', 'actionDate', 'ViewDetails'];
 
-
-    this.employeeForm.controls['roles'].valueChanges.subscribe((data) => {
-      if (data == "siteContact") {
-        this.surverolesStat = true;
-      }
-      else {
-        this.surverolesStat = false;
-      }
-    });
-
-    this.employeeForm.controls['surveyRoles'].setValue([ { "name": "Chief Information Officer (CIO)", "id": "A" } ]);
-
+    this.criticalityScores = [
+      '1 (Low)', '2', '3', '4', '5 (High)'
+    ];
 
     //Filter Code--------------------------------------------------
-    this.displayedColumns = Object.keys(this.userData[0]);
+    this.displayedColumns = Object.keys(this.facilityTypeData[0]);
 
     this.displayedColumns.forEach((elem) => {
       this.filteredValues[elem] = ""
@@ -128,7 +111,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       methods: this.CONDITIONS_FUNCTIONS
     }
 
-
     //Filter Form Creation
     this.filterForm = this.fb.group({
       aliases: this.fb.array([this.createItem()])
@@ -138,55 +120,45 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.filterForm.get('aliases').valueChanges.subscribe(
       data => {
         this.filteredFormData = data;
-      });
-
-
+      }
+    );
+    //End Filter Code--------------------------------------------------
   }
 
   createForm() {
-    this.employeeForm = this.fb.group({
-      fisrtName: [''],
-      lastName: [''],
-      email: [''],
-      status: [''],
-      roles: [''],
-      surveyRoles: [''],
-      account: ['lock'],
-      phone: [''],
-      jobTitles: [''],
-      sessionTimeOut: ['15']
+    this.facilityTypeForm = this.fb.group({
+      facilityType : [''],
+      status : [''],
+      criticalityScore : [''],
+      description : ['']
     });
   }
 
-  onSubmit() {
+  showHide() {
+    this.facilityTypeGrid = !this.facilityTypeGrid;
+    this.newFacilityTypeForm = !this.newFacilityTypeForm;
+    this.facilityTypeForm.reset();
   }
 
-  showHide() {
-    this.userDetails = !this.userDetails;
-    this.userForm = !this.userForm;
-    this.employeeForm.reset();
+  onSubmit() {
+
   }
 
   emittedValue(event) {
 
-    this.userDetails = !event.status;
-    this.userForm = event.status;
+    this.facilityTypeGrid = !event.status;
+    this.newFacilityTypeForm = event.status;
 
     let singleUserData = event.rowData;
-    
-    this.employeeForm.setValue({
-      fisrtName: singleUserData.firstName,
-      lastName: singleUserData.lastName,
-      email: singleUserData.email,
-      status: singleUserData.status,
-      roles: singleUserData.role,
-      surveyRoles: singleUserData.surveyRole,
-      account: singleUserData.accountNonLocked,
-      phone: singleUserData.phone,
-      jobTitles: singleUserData.jobTitles,
-      sessionTimeOut: singleUserData.sessionTimeOut
-    });
 
+    console.log(singleUserData);
+
+    this.facilityTypeForm.setValue({
+      facilityType : singleUserData.facilityType,
+      status : singleUserData.status,
+      criticalityScore : singleUserData.criticalityScore,
+      description : singleUserData.description
+    })
   }
 
   //Functions for creating filter fields dynamically.
@@ -242,9 +214,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       //Sending searchfilter value to grid
       this.filter.sendFilter(this.searchFilter);
 
-  }
-
-  ngOnDestroy() {
   }
 
 }

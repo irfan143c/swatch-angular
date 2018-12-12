@@ -1,0 +1,337 @@
+<div class="app-content content">
+  <div class="content-wrapper">
+
+    <div class="content-header row">
+      <div class="content-header-left col-md-6 col-12 mb-1">
+        <h3 class="content-header-title">Recommendations</h3>
+      </div>
+      <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+        <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Home</a>
+            </li>
+            <li class="breadcrumb-item active">Recommendation
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <section class="row">
+        <div class="col-sm-12">
+          <div id="user-details" class="card">
+            <div class="card-header">
+              <h4 class="card-title" *ngIf="newRecommendationForm">Add Recommendation</h4>
+              <a class="heading-elements-toggle">
+                <i class="fa fa-ellipsis-v font-medium-3"></i>
+              </a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                  <li>
+                    <a data-action="collapse">
+                      <i class="ft-minus"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a data-action="reload">
+                      <i class="ft-rotate-cw"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a data-action="close">
+                      <i class="ft-x"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-content collapse show">
+
+              <div class="card-body" *ngIf="recommendationGrid">
+                <div class="card-text mb-2">
+
+                  <span ngbDropdown>
+                    <button class="btn mr-1 mb-1 btn-outline-primary" id="dropdownConfig" ngbDropdownToggle>
+                      <i class="ft-filter"></i> Filter
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                      <form [formGroup]="filterForm">
+                        <div formArrayName="aliases">
+                          <div *ngFor="let address of aliases.controls; let i=index">
+                            <!-- The repeated alias template -->
+                            <div [formGroupName]="i">
+
+                              <div class="float-left mt-1">
+                                <label class="dropdownClause pr-2" *ngIf="i == 0">Where</label>
+                                <select *ngIf="i  ==  1" class="form-control dropdownClause" [formControl]="clauseDropdown"
+                                  id="sel1">
+                                  <option *ngFor="let option of options">{{option}} </option>
+                                </select>
+                                <label class="dropdownClause mt-2 mr-4 ml-3" *ngIf="i > 1"> {{clauseDropdown.value}}
+                                </label>
+                              </div>
+
+                              <mat-form-field class="filterFormFields mr-1">
+                                <mat-select formControlName="columnVal" placeholder="Columns" #columnInput>
+                                  <mat-option *ngFor="let column of displayedColumns" [value]="column">
+                                    {{ column }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field *ngIf="columnInput.value==null" class="filterFormFields mr-1">
+                                <mat-select formControlName="numClauseVal" placeholder="Clauses">
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field *ngIf="
+                                    columnInput.value=='initialCost' ||
+                                    columnInput.value=='implementationCost' ||
+                                    columnInput.value=='annualMaintenanceCost' ||
+                                    columnInput.value=='lifeTime'"
+                                class="filterFormFields mr-1">
+                                <mat-select formControlName="numClauseVal" placeholder="Clauses" [(value)]="searchCondition[columnInput.value]">
+                                  <mat-option *ngFor="let clause of numberClauses" [value]="clause.value">
+                                    {{clause.label}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field *ngIf=" 
+                                    columnInput.value=='recommendation' || 
+                                    columnInput.value=='status' ||
+                                    columnInput.value=='description' ||
+                                    columnInput.value=='priority'"
+                                class="filterFormFields mr-1">
+                                <mat-select formControlName="strClauseVal" placeholder="Clauses" [(value)]="searchCondition[columnInput.value]">
+                                  <mat-option *ngFor="let clause of stringClauses" [value]="clause.value">
+                                    {{clause.label}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field class="filterFormFields mr-1">
+                                <input matInput formControlName="filterVal" placeholder="Filter" autocomplete="off">
+                              </mat-form-field>
+                              <!-- <mat-form-field > <input matInput [matDatepicker]="picker" formControlName="dateVal" placeholder="Choose a date" (click)="picker.open()" readonly> <mat-datepicker #picker></mat-datepicker> </mat-form-field> -->
+
+                              <!-- Remove button -->
+                              <button mat-icon-button (click)="removeFilter(i)">
+                                <mat-icon class="mat-icon-fs">clear</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                          <button mat-mini-fab class="btn-primary" (click)="addFilter()" matTooltip="Add Filter">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                          <!-- <button mat-mini-fab class="btn-color float-right" (click)="clearFilter()" matTooltip="Reset Filter"> <mat-icon>refresh</mat-icon> </button> -->
+                          <button mat-raised-button class="btn-primary float-right" (click)="applyFilter(filterForm)">
+                            Apply</button>
+                        </div>
+                      </form>
+                    </div>
+                  </span>
+
+                  <button class="btn mr-1 mb-1 btn-outline-primary" (click)="showHide()">Add Recommendation</button>
+                </div>
+                <app-grid [tableData]="recommendationData" (getRowdata)="emittedValue($event)" [action]="true"
+                  [visibleColumns]="columnsList"></app-grid>
+              </div>
+
+              <!-- Recommendation Form Section -->
+              <div class="card-body" *ngIf="newRecommendationForm">
+                <form class="form" [formGroup]="recommendationForm" (ngSubmit)="onSubmit()" [ngStyle]="{'display':  formToggle ? 'block' : 'none' }">
+
+                  <ul class="nav nav-tabs ">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="active-tab" data-toggle="tab" href="#active" aria-controls="active"
+                        aria-expanded="true" style="padding: 0.5rem 4.7rem;">Recommendation</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " id="link-tab" data-toggle="tab" href="#link" aria-controls="link"
+                        aria-expanded="false" style="padding: 0.5rem 4.7rem;">Facility Types</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content px-1 pt-1">
+                    <div role="tabpanel" class="tab-pane in active" id="active" aria-labelledby="active-tab"
+                      aria-expanded="true">
+                      <div class="card-text">
+                        <!-- <div class="mat-container"> -->
+                        <div class="form-body">
+                          <h4 class="form-section"><i class="ft-box"></i> Recommendation Info</h4>
+
+                          <div class="row mb-2">
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input matInput placeholder="Recommendation" formControlName="recommendation">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <mat-select placeholder="Status" formControlName="status">
+                                  <mat-option>Status</mat-option>
+                                  <mat-option value="active">Active</mat-option>
+                                  <mat-option value="inactive">Inactive</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row mb-2">
+                            <div class="col-md-10">
+                              <mat-form-field class="w-100">
+                                <textarea matInput placeholder="Details" formControlName="details"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row mb-2">
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input matInput placeholder="Initial Cost" formControlName="initialCost">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input matInput placeholder="Implementation Cost" formControlName="implementationCost">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row mb-2">
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input matInput placeholder="Annual Maintenance Cost" formControlName="annualMaintenanceCost">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <input matInput placeholder="Life Time (in years)" formControlName="lifeTime">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row mb-2">
+                            <div class="col-md-6">
+                              <mat-form-field class="w-75">
+                                <mat-select placeholder="Priority" formControlName="priority">
+                                  <mat-option>Priority</mat-option>
+                                  <mat-option value="high">High</mat-option>
+                                  <mat-option value="medium">Medium</mat-option>
+                                  <mat-option value="low">Low</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <app-multiselectsearch [dropdownOptions]="recommendationTypesData" formControlName="recommendationTypes"
+                                [placeholder]="'Recommendation Types'">
+                              </app-multiselectsearch>
+                              <button mat-icon-button (click)="toggleForms(false)">
+                                <mat-icon>add_circle</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+
+                        </div>
+                        <!-- </div> -->
+                      </div>
+                    </div>
+                    <div class="tab-pane " id="link" role="tabpanel" aria-labelledby="link-tab" aria-expanded="false">
+                      <app-multiselectsearch [dropdownOptions]="facilityTypesData" formControlName="facilityTypes"
+                        [placeholder]="'Facility Types'">
+                      </app-multiselectsearch>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-md-12">
+                        <button class="float-right btn-danger" type="button" mat-raised-button (click)="showHide()">Cancel</button>
+                        <button class="float-right mr-1 btn-primary" type="submit" mat-raised-button>Save</button>
+                      </div>
+
+                      <p>Form value: {{ recommendationForm.value | json }}</p>
+                    </div>
+                  </div>
+                </form>
+
+                <!-- Form for add recommendation types -->
+                <form class="form" [formGroup]="recommendationTypeForm" (ngSubmit)="onSubmit()" [ngStyle]="{'display':  formToggle ? 'none' : 'block' }">
+                  <div class="card-text">
+                    <div class="form-body">
+                      <h4 class="form-section"><i class="ft-box"></i> Recommendation Type Info</h4>
+                      <div class="row mb-2">
+                        <div class="col-md-6">
+                          <mat-form-field class="w-75">
+                            <input matInput placeholder="Recommendation Type" formControlName="recommendationType">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field class="w-75">
+                            <mat-select placeholder="Status" formControlName="recommendationTypeStatus">
+                              <mat-option>Status</mat-option>
+                              <mat-option value="active">Active</mat-option>
+                              <mat-option value="inactive">Inactive</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-md-10">
+                          <mat-form-field class="w-100">
+                          <textarea matInput placeholder="Description" formControlName="description"></textarea>
+                        </mat-form-field>
+                        </div>                        
+                      </div>
+
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <button type="button" class="float-right btn-danger" type="button" mat-raised-button (click)="toggleForms(true)">Cancel</button>
+                          <button type="button" class="float-right mr-1 btn-primary" type="submit" mat-raised-button>Save</button>
+                        </div>
+
+                        <p>Form value: {{ recommendationTypeForm.value | json }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <!--End of Form for add recommendation types -->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="row" *ngIf="recommendationGrid">
+        <div class="col-12">
+          <div id="accordionEvent" role="tablist" aria-multiselectable="true">
+            <div class="card collapse-icon accordion-icon-rotate acc-border">
+              <div id="recommendationInfo" class="card-header">
+                <h4 class="card-title">Events
+                  <a data-toggle="collapse" data-parent="#accordionEvent" href="#eventAccordion" aria-expanded="false"
+                    aria-controls="eventAccordion" class="card-title lead collapsed">
+                    <i class="ft-chevron-down" style="font-size: 25px;"></i>
+                  </a>
+                </h4>
+              </div>
+              <div id="eventAccordion" role="tabpanel" aria-labelledby="recommendationInfo" class="collapse"
+                aria-expanded="false" style="height: 0px;">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col-md-12">
+                        <app-grid [tableData]="eventData" [action]="false" [visibleColumns]="eventColumnsList"></app-grid>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

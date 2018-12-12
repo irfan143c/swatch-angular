@@ -20,15 +20,23 @@
   <div class="example-container mat-elevation-z8">
     <mat-table [dataSource]="dataSource" matSort #table>
       <ng-container *ngFor="let disCol of displayedColumns; let colIndex=index" matColumnDef="{{disCol}}">
-        <mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight:bolder !important;color:black"> {{disCol
-          | uppercase}} </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row[disCol] }}<button *ngIf="disCol=='action' " mat-icon-button style="color:
-              #33b5e5"
-            (click)="showData(row.id)">
+        <mat-header-cell [ngClass]="'customWidthClass'" *matHeaderCellDef mat-sort-header style="font-weight:bolder !important;color:black" 
+          [ngStyle]="{ 'visibility': disCol == 'option' ? 'hidden' : 'visible' }"> 
+          {{disCol | uppercase}} 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="'customWidthClass'"> {{row[disCol] }}
+          
+          <button *ngIf="disCol=='option' " mat-icon-button (click)="showData(row)">
+            <i class="ft-maximize-2" style="font-size: 25px;"></i>
+          </button>
+
+          <button *ngIf="disCol=='action' " mat-icon-button style="color: #33b5e5">
             <mat-icon>create</mat-icon>
-          </button><button *ngIf="disCol=='action' " mat-icon-button style="color: #33b5e5">
+          </button>
+          <button *ngIf="disCol=='action' " mat-icon-button style="color: #33b5e5">
             <mat-icon>delete</mat-icon>
-          </button></mat-cell>
+          </button>
+        </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

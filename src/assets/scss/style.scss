@@ -335,3 +335,24 @@ $lightBtnHovFocActColor: #cccece;
 #card-actions .card-header i{
 	color: #e1e1e1;
 }
+
+
+button:focus {
+	outline: unset !important;
+  }
+
+
+/* css for remove button size in grid filter */
+.btn-size {
+	height: 30px !important;
+	width: 30px !important;
+}
+
+.mat-icon-fs {
+	font-size: 15px !important;
+  }
+  
+.filterFormFields {
+	width: 100px;
+	font-size: 14px;
+}

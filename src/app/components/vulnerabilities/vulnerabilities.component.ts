@@ -1,30 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FilterService } from '../../services/filter.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-vulnerabilities',
+  templateUrl: './vulnerabilities.component.html',
+  styleUrls: ['./vulnerabilities.component.scss'],
+  providers: [NgbDropdownConfig]
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class VulnerabilitiesComponent implements OnInit {
 
-  userDetails: boolean = true;
-  userForm: boolean = false;
-  columnsList: any;
-  userData: any = [];
-  eventData: any = [];
-  eventColumnsList: any;
-  employeeForm: FormGroup;
-  surverolesStat: boolean = false;
-  surveyRolesData: any = [
-    { name: 'A', id: 1 },
-    { name: 'B', id: 2 },
-    { name: 'C', id: 3 },
-    { name: 'D', id: 4 },
-    { name: 'E', id: 5 }
-  ];
+  vulnerabilityGrid : boolean = true;
+  newVulnerabilityForm : boolean = false;
+  vulnerabilityForm : FormGroup;
+  vulnerabilityData : any = [];
+  columnsList : any;
+  eventData : any;
+  eventColumnsList : any;
+  editTitle : boolean = false;
 
   //Variables for filter--------------------
   displayedColumns = [];
@@ -76,7 +70,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
   //End Variables for filter-------------------
 
-
   constructor(private fb: FormBuilder, config: NgbDropdownConfig, private filter : FilterService) {
     this.createForm();
     this.clauseDropdown.setValue('and', { onlySelf: true })
@@ -86,37 +79,23 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.userData = [
-      { email: 'john1@gmail.com', firstName: 'John1', lastName: 'Snow1', facility: '-', role: 'administrator', status: 'active', accountNonLocked: 'unlock', phone: 225581, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john2@gmail.com', firstName: 'John2', lastName: 'Snow2', facility: '-', role: 'administrator', status: 'active', accountNonLocked: 'lock', phone: 225582, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john3@gmail.com', firstName: 'John3', lastName: 'Snow3', facility: '-', role: 'siteContact', status: 'inactive', accountNonLocked: 'lock', phone: 225583, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john4@gmail.com', firstName: 'John4', lastName: 'Snow4', facility: '-', role: 'administrator', status: 'inactive', accountNonLocked: 'unlock', phone: 225584, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
-      { email: 'john5@gmail.com', firstName: 'John5', lastName: 'Snow5', facility: '-', role: 'siteContact', status: 'inactive', accountNonLocked: 'unlock', phone: 225585, sessionTimeOut: 15, jobTitles: '', surveyRole: [1,4] },
-      { email: 'john6@gmail.com', firstName: 'John6', lastName: 'Snow6', facility: '-', role: 'siteContact', status: 'active', accountNonLocked: 'unlock', phone: 225586, sessionTimeOut: 15, jobTitles: '', surveyRole: '' },
+    this.vulnerabilityData = [
+      { vulnerability : 'Access Control', status : 'active', description : 'ACCESS CONTROL, FACILITY refers to the lack of entry/access control systems and procedures, inadequate fencing/barriers, and failure of security guards to follow entry/access control procedures.	' },
+      { vulnerability : 'Audit Controls', status : 'active', description : 'AUDIT CONTROLS - refer to the audit procedures and lines of accountability in the organization; specifically, the lack of a traceable record of every transaction created by the system identifying the user who initiated the transaction.' },
+      { vulnerability : 'Communications', status : 'active', description : 'COMMUNICATIONS - refers to the lack of required communications equipment (telephones, radios, pagers, cell phones, intercom systems, etc.), inadequate training, and nonexistent/deficient communications policy.' },
+      { vulnerability : 'Compliance/Legal/Risk', status : 'inactive', description : 'COMPLIANCE - refers to lack of compliance with regulatory requirements and organizational policy (i.e., if a risk assessment is required annually, then not performing the assessment would be a compliance vulnerability).' },
+      { vulnerability : 'Data Integrity', status : 'inactive', description : 'DATA INTEGRITY - refers to the lack of controls to protect the integrity of data, such as program controls, access controls for databases, validation, audit trails, authentication controls to access authorized data, etc.' }
     ];
 
-    this.columnsList = ['option', 'email', 'firstName', 'lastName', 'role', 'status'];
+    this.columnsList = ['option', 'vulnerability', 'description'];
 
     this.eventData = [
       { actionPerformed: '', performedBy: '', module: '', actionDate: '', viewDetails: '', beforeChange: '', afterChange: '', data: '', time: '', assessment: '' }
     ];
     this.eventColumnsList = ['option', 'actionPerformed', 'performedBy', 'module', 'actionDate', 'ViewDetails'];
 
-
-    this.employeeForm.controls['roles'].valueChanges.subscribe((data) => {
-      if (data == "siteContact") {
-        this.surverolesStat = true;
-      }
-      else {
-        this.surverolesStat = false;
-      }
-    });
-
-    this.employeeForm.controls['surveyRoles'].setValue([ { "name": "Chief Information Officer (CIO)", "id": "A" } ]);
-
-
     //Filter Code--------------------------------------------------
-    this.displayedColumns = Object.keys(this.userData[0]);
+    this.displayedColumns = Object.keys(this.vulnerabilityData[0]);
 
     this.displayedColumns.forEach((elem) => {
       this.filteredValues[elem] = ""
@@ -138,56 +117,41 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.filterForm.get('aliases').valueChanges.subscribe(
       data => {
         this.filteredFormData = data;
-      });
-
+      }
+    );
+    //End Filter Code--------------------------------------------------
 
   }
 
   createForm() {
-    this.employeeForm = this.fb.group({
-      fisrtName: [''],
-      lastName: [''],
-      email: [''],
-      status: [''],
-      roles: [''],
-      surveyRoles: [''],
-      account: ['lock'],
-      phone: [''],
-      jobTitles: [''],
-      sessionTimeOut: ['15']
+    this.vulnerabilityForm = this.fb.group({
+      vulnerability : [''],
+      status : [''],
+      description : ['']
     });
-  }
-
-  onSubmit() {
-  }
-
-  showHide() {
-    this.userDetails = !this.userDetails;
-    this.userForm = !this.userForm;
-    this.employeeForm.reset();
   }
 
   emittedValue(event) {
+    this.vulnerabilityGrid = !event.status;
+    this.newVulnerabilityForm = event.status;
+    this.editTitle = event.status;
 
-    this.userDetails = !event.status;
-    this.userForm = event.status;
+    let singleFacilityData = event.rowData;
 
-    let singleUserData = event.rowData;
-    
-    this.employeeForm.setValue({
-      fisrtName: singleUserData.firstName,
-      lastName: singleUserData.lastName,
-      email: singleUserData.email,
-      status: singleUserData.status,
-      roles: singleUserData.role,
-      surveyRoles: singleUserData.surveyRole,
-      account: singleUserData.accountNonLocked,
-      phone: singleUserData.phone,
-      jobTitles: singleUserData.jobTitles,
-      sessionTimeOut: singleUserData.sessionTimeOut
+    this.vulnerabilityForm.setValue({
+      vulnerability : singleFacilityData.vulnerability,
+      status: singleFacilityData.status,
+      description: singleFacilityData.description
     });
-
   }
+
+  showHide() {
+    this.vulnerabilityGrid = !this.vulnerabilityGrid;
+    this.newVulnerabilityForm = !this.newVulnerabilityForm;
+    this.editTitle = false;
+    this.vulnerabilityForm.reset();
+  }
+
 
   //Functions for creating filter fields dynamically.
   createItem() {
@@ -242,9 +206,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       //Sending searchfilter value to grid
       this.filter.sendFilter(this.searchFilter);
 
-  }
-
-  ngOnDestroy() {
   }
 
 }

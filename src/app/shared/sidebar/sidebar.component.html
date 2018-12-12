@@ -1,17 +1,17 @@
 <!-- Horizontal navigation-->
 <div class="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-light navbar-without-dd-arrow navbar-shadow menu-border"
-      role="navigation" >
+      role="navigation">
       <!-- data-menu="menu-wrapper" -->
       <!-- Horizontal menu content-->
       <div class="navbar-container main-menu-content" data-menu="menu-container">
             <!-- include ../../../includes/mixins-->
             <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
-                  <li class="nav-item" >
-                        <a class="nav-link" routerLink="/dashboard" ><i class="ft-home"></i>
+                  <li class="nav-item">
+                        <a class="nav-link" routerLink="/dashboard"><i class="ft-home"></i>
                               <span>Dashboard</span>
                         </a>
                   </li>
-                  <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
+                  <!-- <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                               data-toggle="dropdown"><i class="ft-monitor"></i><span>Templates</span></a>
                         <ul class="dropdown-menu">
                               <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
@@ -1231,14 +1231,37 @@
                                     </ul>
                               </li>
                         </ul>
+                  </li> -->
+
+                  <li class="nav-item">
+                        <a class="nav-link" routerLink="/users"><i class="ft-users"></i><span>Users</span></a>
                   </li>
 
-                  <li class="nav-item" >
-                        <a class="nav-link" routerLink="/users" ><i class="ft-users"></i><span>Users</span></a>
+                  <li class="dropdown nav-item">
+                        <a class="nav-link" routerLink="/facilities"><i class="ft-box"></i><span>Facility(s)</span></a>
+                        <ul class="dropdown-menu">
+                              <li>
+                                    <a class="dropdown-item " routerLink="/facilitytype">Facility Types </a>
+                              </li>
+                              <li>
+                                    <a class="dropdown-item " routerLink="/facilityregion">Facility Regions </a>
+                              </li>
+                        </ul>
                   </li>
-                  <li class="nav-item" >
-                        <a class="nav-link" routerLink="/facilities" ><i class="ft-list"></i><span>Facilities</span></a>
+                  <li class="dropdown nav-item" data-menu="dropdown">
+                        <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">
+                              <i class="ft-alert-octagon"></i><span>Risk Registers</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                              <li>
+                                    <a class="dropdown-item " routerLink="/vulnerabilities">Vulnerabilities </a>
+                              </li>
+                              <li>
+                                    <a class="dropdown-item " routerLink="/recommendations">Recommendations </a>
+                              </li>
+                        </ul>
                   </li>
+
 
             </ul>
       </div>
