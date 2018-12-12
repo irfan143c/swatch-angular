@@ -1,0 +1,393 @@
+<div class="app-content content">
+  <div class="content-wrapper">
+
+    <div class="content-header row">
+      <div class="content-header-left col-md-6 col-12 mb-1">
+        <h3 class="content-header-title">Question Register</h3>
+      </div>
+      <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+        <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a>Home</a>
+            </li>
+            <li class="breadcrumb-item active">Questions
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <section class="row">
+        <div class="col-sm-12">
+           <div id="user-details" class="card" >
+              <div class="card-header">
+                <h4 class="card-title" *ngIf="quesForm">Add Question</h4>
+                <button class="btn mr-1 mb-1 btn-outline-primary" *ngIf="questionDetails" (click)="showHide('add')" >Add Question</button>
+                <a class="heading-elements-toggle">
+                  <i class="fa fa-ellipsis-v font-medium-3"></i>
+                </a>
+                <div class="heading-elements">
+                  <ul class="list-inline mb-0">
+                    <li>
+                      <a data-action="collapse">
+                        <i class="ft-minus"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a data-action="reload">
+                        <i class="ft-rotate-cw"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a data-action="close">
+                        <i class="ft-x"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-content collapse show">
+                <!-- User Details Section -->
+                <!-- <div class="card-body" *ngIf="questionDetails">
+                  <div class="card-text">
+                    <button class="btn mr-1 mb-1 btn-outline-primary" (click)="showHide()" >Add Question</button>
+                  </div>
+                </div> -->
+
+                <!-- Questions Table Section -->
+                <div class="card-body" *ngIf="questionDetails">
+
+                    <app-grid [tableData]="questions" (getRowdata)="emittedValue($event)" [action]="false" [visibleColumns]="columnsList"></app-grid>
+                </div>
+
+                <!-- Question Form Section -->
+                <div class="card-body" *ngIf="quesForm">
+                  <div class="card-text">
+                    <!-- <div class="mat-container"> -->
+                    <form class="form" [formGroup]="questionForm">
+                      <div class="form-body">
+                        <h4 class="form-section"><i class="ft-user"></i> Question Details</h4>
+                        <div class="row mb-2">
+                          <div class="col-md-4">
+                            <mat-form-field class="w-75">
+                              <input id="questionNumber" matInput placeholder="Question Number" formControlName="questionNumber">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field class="w-75">
+                              <input id="questionTitle" matInput placeholder="Question Title" formControlName="questionTitle">
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-4">
+                            <mat-form-field class="w-75">
+                              <input id="questionWeight" matInput placeholder="Question Weight" formControlName="questionWeight">
+                            </mat-form-field>
+                          </div>
+                        </div>
+
+                        <div class="row mb-2 pt-2 " >
+                            <div class="col-md-4">
+                                <app-multiselectsearch [dropdownOptions]="surveyRoles" formControlName="jobRoles" [placeholder]="'Survey Role(s)'">
+                                </app-multiselectsearch>
+                            </div>
+                          <!-- <div class="col-md-4">
+                            <mat-form-field class="w-75">
+                                    <mat-select placeholder="Job Role(s)" formControlName="jobRoles">
+                                      <mat-option value="active">Job Role 1</mat-option>
+                                      <mat-option value="inactive">Job Role 2</mat-option>
+                                      <mat-option value="inactive">Job Role 3</mat-option>
+                                      <mat-option value="inactive">Job Role 4</mat-option>
+                                      <mat-option value="inactive">Job Role 5</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                          </div> -->
+                          <div class="col-md-4">
+                              <app-multiselectsearch [dropdownOptions]="facilityTypes" formControlName="jobTitles" [placeholder]="'Facility Type(s)'">
+                              </app-multiselectsearch>
+                          </div>
+
+                          <div class="col-md-4">
+                            <mat-form-field class="w-75">
+                                    <mat-select placeholder="Status" formControlName="status">
+                                      <mat-option *ngFor="let status of statuses" [value]="status">
+                                        {{ status }}
+                                      </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                
+                        <div class="row mb-2 pt-2 " >
+                            <div class="col-md-4">
+                                <mat-form-field class="w-75">
+                                    <mat-select placeholder="Response Type" formControlName="respType" (change)="respTypeMethod()">
+                                      <mat-option *ngFor="let rtype of responseTypes" [value]="rtype">
+                                        {{ rtype.name }}
+                                      </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4" *ngIf="showCriteria">
+                                <mat-form-field class="w-75">
+                                    <mat-select placeholder="Criteria" formControlName="criteria">
+                                        <mat-option value="ge">Greater than or equal to</mat-option>
+                                        <mat-option value="le">Less than or equal to</mat-option>
+                                        <mat-option value="eq">Equal to</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="w-75">
+                                <mat-select placeholder="Compliant Response" formControlName="compliantResponse">
+                                    <mat-option value="1">1</mat-option>
+                                    <mat-option value="2">2</mat-option>
+                                    <mat-option value="3">3</mat-option>
+                                    <mat-option value="4">4</mat-option>
+                                    <mat-option value="5">5</mat-option>
+                                    <mat-option value="6">6</mat-option>
+                                    <mat-option value="7">7</mat-option>
+                                    <mat-option value="8">8</mat-option>
+                                    <mat-option value="9">9</mat-option>
+                                    <mat-option value="10">10</mat-option>
+                                </mat-select>
+                        </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4" *ngIf="showCompYn">
+                            <mat-form-field class="w-75">
+                                <mat-select placeholder="Compliant Response" formControlName="compliantResponse">
+                                    <mat-option value="yes">Yes</mat-option>
+                                    <mat-option value="no">No</mat-option>
+                                </mat-select>
+                        </mat-form-field>
+                            </div>
+                          
+                          <div class="col-md-4">
+                              <mat-form-field class="w-75">
+                                  <mat-select placeholder="Predecessor(s)" formControlName="predecessor">
+                                    <mat-option *ngFor="let pred of predecessors" [value]="pred">
+                                      {{ pred }}
+                                    </mat-option>
+                                  </mat-select>
+                          </mat-form-field>
+                          </div>
+
+                          
+                        </div>
+
+                        <div class="row mb-2" *ngIf="showUploadFields">
+                            
+                            
+                            <div class="col-md-4">
+                              <div> <label>Require Upload</label> </div>
+                              <mat-checkbox formControlName="checkUpload" (change)="checkBoxMethod($event)"></mat-checkbox>
+                            </div>
+
+                            <div class="col-md-4">
+                                <mat-form-field class="w-75">
+                                  <mat-select placeholder="Role" formControlName="requestUpload" #role [disabled]="this.disableRequestUpload">
+                                    <mat-option value="wc">When Compliant</mat-option>
+                                    <mat-option value="wnc">When Non Compliant</mat-option>
+                                    <mat-option value="always">Always</mat-option>
+                                    <mat-option value="never">Never</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                          </div>
+                
+
+                          <div class="row mb-2" >
+                            
+                            
+                              <div class="col-md-4">
+                                <mat-checkbox formControlName="enableRespondentRecomm">Enable Respondent Recommendations</mat-checkbox>
+                              </div>
+
+                              <div class="col-md-4">
+                                  <div> <label>Question Appearance</label> </div>
+                                  <mat-checkbox formControlName="surveyQuestion">Preliminary Assessment</mat-checkbox>
+                                  <mat-checkbox formControlName="checkListQuestion">Assessment</mat-checkbox>
+                                </div>
+
+                              </div>
+
+                              <div class="row mb-2 pt-2 " >
+                                  <div class="col-md-4">
+                                      <app-multiselectsearch [dropdownOptions]="recommendations" formControlName="controls" [placeholder]="'Recommendation(s)'">
+                                      </app-multiselectsearch>
+                                  </div>
+                                <div class="col-md-4">
+                                   
+                                    <app-selectsearch [placeholder]="'Question Category'" [dropdownOptions]="questionCategories" formControlName="qCategory"></app-selectsearch>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <app-multiselectsearch [dropdownOptions]="vulnerabilities" formControlName="vulnerability" [placeholder]="'Vulnerability'">
+                                    </app-multiselectsearch>
+                                </div>
+      
+                                
+                              </div>
+
+                              <!-- <div class="row mb-2 pt-2 " >
+                                  <div class="col-md-12 col-sm-12">
+                                      <div class="card">
+                                        <div class="card-header" id="heading-links">
+                                          <h4 class="card-title">Miscellaneous</h4>
+                                          <a class="heading-elements-toggle">
+                                            <i class="fa fa-ellipsis-v font-medium-3">
+
+                                            </i></a>
+                                          <div class="heading-elements">
+                                            <a class="success" (click)="showAreas('qtext')">Question Text</a>
+                                            <a  class="success" (click)="showAreas('cstan')">Control Standard</a>
+                                            <a  class="success" (click)="showAreas('vstate')">Vulnerability Statement</a>
+                                            <ul class="list-inline mb-0">
+                                                <li>
+                                                  <a data-action="collapse">
+                                                    <i class="ft-minus"></i>
+                                                  </a>
+                                                </li>
+                                                <li>
+                                                  <a data-action="reload">
+                                                    <i class="ft-rotate-cw"></i>
+                                                  </a>
+                                                </li>
+                                                <li>
+                                                  <a data-action="close">
+                                                    <i class="ft-x"></i>
+                                                  </a>
+                                                </li>
+                                              </ul>
+                                          </div>
+                                           
+                                        </div>
+
+                                        <div class="card-body" >
+                                          <div id="link1" *ngIf="qtext">
+                                            <h4 class="card-title">Question Text</h4>
+                                            <p class="card-text">Add links in <code>.heading-element</code> div. That will set links
+                                              on right side of the header.</p>
+                                            <p class="card-text">Caramels lemon drops tootsie roll toffee. Gummi bears macaroon
+                                              fruitcake sesame snaps dessert sugar plum lollipop donut jelly-o.
+                                              Croissant wafer bonbon sweet cake icing chocolate oat cake lemon
+                                              drops.
+                                            </p>
+                                            <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflé. Tart
+                                              lollipop carrot cake sugar plum. Marshmallow wafer tiramisu jelly
+                                              beans.
+                                            </p>
+                                            </div>
+
+                                            <div id="link2" *ngIf="cstan">
+                                                <h4 class="card-title">Control Standard</h4>
+                                                <p class="card-text">Add links in <code>.heading-element</code> div. That will set links
+                                                  on right side of the header.</p>
+                                                <p class="card-text">Caramels lemon drops tootsie roll toffee. Gummi bears macaroon
+                                                  fruitcake sesame snaps dessert sugar plum lollipop donut jelly-o.
+                                                  Croissant wafer bonbon sweet cake icing chocolate oat cake lemon
+                                                  drops.
+                                                </p>
+                                                <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflé. Tart
+                                                  lollipop carrot cake sugar plum. Marshmallow wafer tiramisu jelly
+                                                  beans.
+                                                </p>
+                                            </div>
+                                            <div id="link3" *ngIf="vstate">
+                                                <h4 class="card-title">Vulnerability Statement</h4>
+                                                <p class="card-text">Add links in <code>.heading-element</code> div. That will set links
+                                                  on right side of the header.</p>
+                                                <p class="card-text">Caramels lemon drops tootsie roll toffee. Gummi bears macaroon
+                                                  fruitcake sesame snaps dessert sugar plum lollipop donut jelly-o.
+                                                  Croissant wafer bonbon sweet cake icing chocolate oat cake lemon
+                                                  drops.
+                                                </p>
+                                                <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflé. Tart
+                                                  lollipop carrot cake sugar plum. Marshmallow wafer tiramisu jelly
+                                                  beans.
+                                                </p>
+                                            </div>
+                                          </div>
+
+                                          
+                                              
+                                            
+
+                                            
+                                               
+                                              
+
+                                        </div>
+                                        </div>
+
+
+                              </div> -->
+
+                              <div class="card collapse-icon accordion-icon-rotate left">
+                                  <div id="headingCollapse21" class="card-header">
+                                    <a data-toggle="collapse" href="#collapse21" aria-expanded="true" aria-controls="collapse21"
+                                    class="card-title lead">Question Text</a>
+                                  </div>
+                                  <div id="collapse21" role="tabpanel" aria-labelledby="headingCollapse21" class="collapse show">
+                                    <div class="card-content">
+                                      <div class="card-body">
+                                          <mat-form-field class="full-width">
+                                              <textarea matInput placeholder="Question Text" formControlName="questionText"></textarea>
+                                            </mat-form-field>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div id="headingCollapse22" class="card-header">
+                                    <a data-toggle="collapse" href="#collapse22" aria-expanded="false" aria-controls="collapse22"
+                                    class="card-title lead collapsed">Control Standard</a>
+                                  </div>
+                                  <div id="collapse22" role="tabpanel" aria-labelledby="headingCollapse22" class="collapse"
+                                  aria-expanded="false">
+                                    <div class="card-content">
+                                      <div class="card-body">
+                                          <mat-form-field class="full-width">
+                                              <textarea matInput placeholder="Question Text" formControlName="controlStandard"></textarea>
+                                            </mat-form-field>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div id="headingCollapse23" class="card-header">
+                                    <a data-toggle="collapse" href="#collapse23" aria-expanded="false" aria-controls="collapse23"
+                                    class="card-title lead collapsed">Vulnerability Statement</a>
+                                  </div>
+                                  <div id="collapse23" role="tabpanel" aria-labelledby="headingCollapse23" class="collapse"
+                                  aria-expanded="false">
+                                    <div class="card-content">
+                                      <div class="card-body">
+                                          <mat-form-field class="full-width">
+                                              <textarea matInput placeholder="Question Text" formControlName="vulnerabilityStatement"></textarea>
+                                            </mat-form-field>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  </div>
+                          
+                
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button class="float-right btn-danger" type="button" mat-raised-button (click)="showHide('cancel')">Cancel</button>
+                            <button class="float-right mr-1 btn-primary" type="button" mat-raised-button>Save</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      
+      </section>
+    </div>
+
+  </div>
+</div>

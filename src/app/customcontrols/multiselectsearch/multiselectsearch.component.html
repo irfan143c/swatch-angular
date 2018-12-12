@@ -1,7 +1,7 @@
 <mat-form-field>
   <mat-select  [placeholder]="placeholder" [(ngModel)]="selectValue" [multiple]="true" #multiSelect (change)="onChange()" #itemSelect="ngModel">
     <ngx-mat-select-search [formControl]="multiFilterCtrl"></ngx-mat-select-search>
-    <mat-option *ngFor="let option of filteredMulti | async" [value]="option">
+    <mat-option *ngFor="let option of filteredMulti | async" [value]="option.id">
       {{option.name}}
     </mat-option>
   </mat-select>

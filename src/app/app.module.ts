@@ -1,3 +1,7 @@
+import { SurveyRolesComponent } from './components/survey-roles/survey-roles.component';
+import { ResponseManagerComponent } from './components/response-manager/response-manager.component';
+import { QuestionCategoriesComponent } from './components/question-categories/question-categories.component';
+import { QuestionsComponent } from './components/questions/questions.component';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +22,7 @@ import {
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,MatCheckboxModule
 } from '@angular/material';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -59,6 +63,10 @@ import { GridComponent } from './customcontrols/grid/grid.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HttpModule } from '@angular/http';
+import { GriddataService } from 'app/services/griddata.service';
+
+
+
 
 
 
@@ -91,7 +99,11 @@ import { HttpModule } from '@angular/http';
         DaterangepickerComponent,
         GridComponent,
         LoginComponent,
-        ErrorComponent
+        ErrorComponent,
+        QuestionsComponent,
+        QuestionCategoriesComponent,
+        ResponseManagerComponent,
+        SurveyRolesComponent
 
     ],
     imports: [
@@ -112,7 +124,7 @@ import { HttpModule } from '@angular/http';
         MatTooltipModule,
         MatTableModule,
         MatPaginatorModule,
-        MatSortModule,
+        MatSortModule,MatCheckboxModule,
         NgxMatSelectSearchModule,
         NgxDaterangepickerMd,
         HttpModule
@@ -120,7 +132,7 @@ import { HttpModule } from '@angular/http';
     ],
     providers: [
         AuthService,
-        AuthGuard
+        AuthGuard,GriddataService
     ],
     bootstrap: [AppComponent]
 })
